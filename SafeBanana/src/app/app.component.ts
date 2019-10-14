@@ -14,32 +14,32 @@ export class AppComponent {
     {
       title: 'History',
       url: '/home',
-      icon: 'home'
+      icon: 'albums'
     },
     {
       title: 'My visits',
       url: '/list',
-      icon: 'list'
+      icon: 'md-people'
     },
     {
       title: 'Settings',
       url: '/settings',
-      icon: 'list'
+      icon: 'construct'
     },
     {
       title: 'Help',
       url: '/help',
-      icon: 'list'
+      icon: 'ios-help-circle-outline'
     },
     {
-      title: 'Event',
+      title: 'Add Event',
       url: '/event',
       icon: 'list'
     },
     {
       title: 'Sign out',
       url: '/',
-      icon: 'list'
+      icon: 'return-left'
     }
   ];
 
