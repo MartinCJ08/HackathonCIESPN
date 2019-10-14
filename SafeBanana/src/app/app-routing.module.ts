@@ -15,7 +15,8 @@ const routes: Routes = [
     path: 'list',
     loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
   },
-  { path: 'register', loadChildren: './auth/register/register.module#RegisterPageModule' }
+  { path: 'register', loadChildren: './auth/register/register.module#RegisterPageModule' },  { path: 'sign', loadChildren: './pages/sign/sign.module#SignPageModule' }
+
 
 ];
 
