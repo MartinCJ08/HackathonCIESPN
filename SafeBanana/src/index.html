@@ -20,6 +20,29 @@
 
 <body>
   <app-root></app-root>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBaZ-hC6RfdQnsaWwlWBHvHfEaiHtoNKow",
+    authDomain: "safebanananice.firebaseapp.com",
+    databaseURL: "https://safebanananice.firebaseio.com",
+    projectId: "safebanananice",
+    storageBucket: "safebanananice.appspot.com",
+    messagingSenderId: "553188361167",
+    appId: "1:553188361167:web:a51be4ff4c0a8f9b9948ba",
+    measurementId: "G-RFTFRQ5392"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
 </body>
 
 </html>
