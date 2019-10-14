@@ -17,7 +17,8 @@ const routes: Routes = [
   },
   { path: 'register', loadChildren: './auth/register/register.module#RegisterPageModule' },  { path: 'sign', loadChildren: './pages/sign/sign.module#SignPageModule' },
   { path: 'event', loadChildren: './pages/event/event.module#EventPageModule' },
-  { path: 'help', loadChildren: './pages/help/help.module#HelpPageModule' }
+  { path: 'help', loadChildren: './pages/help/help.module#HelpPageModule' },
+  { path: 'home-guest', loadChildren: './pages/home-guest/home-guest.module#HomeGuestPageModule' }
 
 
 ];
