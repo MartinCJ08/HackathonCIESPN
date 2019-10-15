@@ -9,15 +9,20 @@ import { AuthService } from '../auth.service';
 })
 export class RegisterPage implements OnInit {
 
+  inputEmail = '';
+  inputPass = '';
+
   constructor(private  authService:  AuthService, private  router:  Router) { }
 
   ngOnInit() {
   }
 
-  register(form) {
-    this.authService.register(form.value).subscribe((res) => {
-      this.router.navigateByUrl('home');
-    });
+  register() {
+
+    let inputEmail2 = this.inputEmail;
+    let inputPass2 = this.inputPass;
+    console.log(inputEmail2);
+    console.log(inputPass2);
   }
 
 }
