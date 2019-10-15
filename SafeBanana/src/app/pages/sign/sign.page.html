@@ -9,30 +9,30 @@
       <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
         <div padding>
           <ion-item>
-            <ion-input type="text" placeholder="Name"></ion-input>
+            <ion-input id="txtName" type="text" placeholder="Name" [(ngModel)]="inputValue" name="inputValue"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input type="text" placeholder="Last Name"></ion-input>
+            <ion-input id="txtLastName" type="text" placeholder="Last Name" [(ngModel)]="inputLast" name="inputLast"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input type="email" placeholder="Email"></ion-input>
+            <ion-input id="txtEmail" type="email" placeholder="Email" [(ngModel)]="inputEmail" name="inputEmail"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input type="tel" placeholder="Phone"></ion-input>
+            <ion-input id="txtPhone" type="tel" placeholder="Phone" [(ngModel)]="inputPhone" name="inputPhone"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input type="text" placeholder="User"></ion-input>
+            <ion-input id="txtUser" type="text" placeholder="User" [(ngModel)]="inputUser" name="inputUser"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input type="Password" placeholder="Password"></ion-input>
+            <ion-input id="txtPass" type="Password" placeholder="Password" [(ngModel)]="inputPass" name="inputPass"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-input type="Password" placeholder="Confirm password"></ion-input>
+            <ion-input id="txtPass2" type="Password" placeholder="Confirm password" [(ngModel)]="inputPass2" name="inputPass2"></ion-input>
           </ion-item>
         </div>
         <div padding>
           <ion-button size="large" expand="block">Add fingerprint</ion-button>
-          <ion-button size="large" expand="block">Register</ion-button>
+          <ion-button (click) = "register()" size="large" expand="block">Register</ion-button>
         </div>
       </ion-col>
     </ion-row>
