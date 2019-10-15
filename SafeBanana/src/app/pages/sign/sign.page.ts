@@ -13,7 +13,7 @@ export class SignPage implements OnInit {
   inputValue = '';
   inputLast = '';
   inputEmail = '';
-  inputPass =  '';
+  inputPass = '';
   inputPass2 = '';
   inputPhone = '';
   inputUser = '';
@@ -23,15 +23,15 @@ export class SignPage implements OnInit {
   imageUrl: any;
   myUser: User;
 
-  public IMGUR_ENDPOINT:string = "https://api.imgur.com/3/image";
+  public IMGUR_ENDPOINT: string = "https://api.imgur.com/3/image";
   // Imgur client ID
-  public IMGUR_CLIENT_ID:string = "fa80da2d29af8e9";
+  public IMGUR_CLIENT_ID: string = "fa80da2d29af8e9";
 
   // Azure Face API endpoint (West-Central US Server)
   // This is my endpoint. Please use your own for it to work.
-  public AZURE_ENDPOINT:string = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0";
+  public AZURE_ENDPOINT: string = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0";
   // Azure Face API key
-  public AZURE_API_KEY:string = "b9ca9870d5f448698e8d6bacb3feae21";
+  public AZURE_API_KEY: string = "b9ca9870d5f448698e8d6bacb3feae21";
 
   constructor(private userService: UserService, private camera: Camera, private http: HttpClient) { }
 
@@ -41,22 +41,22 @@ export class SignPage implements OnInit {
     });
   }
 
-  register(){
+  register() {
     let input = this.inputValue;
     let last2 = this.inputLast;
     let email2 = this.inputEmail;
     let pass2 = this.inputPass;
     let phone2 = this.inputPhone;
     let user2 = this.inputUser;
-/*
-    this.user =User[   
-      name: input,
-      lastname: last2,
-      email: email2,
-      phone: phone2,
-      user: user2,
-      password:pass2
-    ];*/
+    /*
+        this.user =User[   
+          name: input,
+          lastname: last2,
+          email: email2,
+          phone: phone2,
+          user: user2,
+          password:pass2
+        ];*/
 
     this.myUser = {
       name: input,
@@ -64,13 +64,13 @@ export class SignPage implements OnInit {
       email: email2,
       phone: phone2,
       user: user2,
-      password:pass2,
+      password: pass2,
       moroso: "no"
     };
 
-    
-    
-    console.log("Agregando "+this.userService.addUser(this.myUser));
+
+
+    console.log("Agregando " + this.userService.addUser(this.myUser));
 
     this.userService.getUser().subscribe(data => {
       //console.log(data);
@@ -94,39 +94,39 @@ export class SignPage implements OnInit {
     });
   }
 
-  public sendToImgur(img:string):void {
+  public sendToImgur(img: string): void {
     img = img.substring(img.indexOf('base64,') + 'base64,'.length);
 
-    let auth:string = `Client-ID ${this.IMGUR_CLIENT_ID}`;
+    let auth: string = `Client-ID ${this.IMGUR_CLIENT_ID}`;
     const headerDict = {
       'Content-Type': 'application/json',
       'Authorization': auth,
     }
-    const requestOptions = {                                                                                                                                                                                 
-      headers: new HttpHeaders(headerDict), 
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
     };
     this.http.post(this.IMGUR_ENDPOINT, {
       image: img
     }, requestOptions).subscribe((response) => {
-      this.imageUrl = response.data.link;
+      this.imageUrl = response;
       this.uploadAzureData();
     });
   }
 
-  public uploadAzureData(){
+  public uploadAzureData() {
     const headerDict = {
       'Content-Type': 'application/json',
       'Ocp-Apim-Subscription-Key': this.AZURE_API_KEY,
     }
-    const requestOptions = {                                                                                                                                                                                 
-      headers: new HttpHeaders(headerDict), 
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
     };
 
-    this.http.post(this.AZURE_ENDPOINT+'/persongroups/fracc-las-torres/persons', {
+    this.http.post(this.AZURE_ENDPOINT + '/persongroups/fracc-las-torres/persons', {
       name: this.myUser.user
     }, requestOptions).subscribe((response) => {
       console.log(response);
-      this.http.post(this.AZURE_ENDPOINT+'/persongroups/fracc-las-torres/persons/'+response.personId+'/persistedFaces', {
+      this.http.post(this.AZURE_ENDPOINT + '/persongroups/fracc-las-torres/persons/' + response + '/persistedFaces', {
         url: this.imageUrl
       }, requestOptions).subscribe((response) => {
         console.log(response);
