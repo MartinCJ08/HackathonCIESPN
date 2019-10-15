@@ -108,7 +108,7 @@ export class SignPage implements OnInit {
     this.http.post(this.IMGUR_ENDPOINT, {
       image: img
     }, requestOptions).subscribe((response) => {
-      this.imageUrl = response.data.link;
+      this.imageUrl = response;
       this.uploadAzureData();
     });
   }
@@ -126,7 +126,7 @@ export class SignPage implements OnInit {
       name: this.myUser.user
     }, requestOptions).subscribe((response) => {
       console.log(response);
-      this.http.post(this.AZURE_ENDPOINT+'/persongroups/fracc-las-torres/persons/'+response.personId+'/persistedFaces', {
+      this.http.post(this.AZURE_ENDPOINT+'/persongroups/fracc-las-torres/persons/'+response+'/persistedFaces', {
         url: this.imageUrl
       }, requestOptions).subscribe((response) => {
         console.log(response);
