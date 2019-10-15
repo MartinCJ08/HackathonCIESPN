@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Face Access</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+</head>
+<body style="background-color: black">
+    
+    <video id="player" autoplay style="height: 100vh;margin: 0 auto;display: block;"></video>
+    <canvas id="canvas" width="800" height="800" class="d-none"></canvas>
+    <div class="col-md-4 offset-md-4 position-absolute" style="bottom: 20px">
+        <button class="btn btn-block btn-info" id="capture">Get Access</button>
+    </div>
+
+    <div id="msgModal" class="modal ease" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Alerta!</h5>
+            </div>
+            <div class="modal-body">
+                <p class="modal-msg">Modal body text goes here.</p>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+        const IMGUR_ENDPOINT = "https://api.imgur.com/3/image";
+        // Imgur client ID
+        const IMGUR_CLIENT_ID = "fa80da2d29af8e9";
+
+        // Azure Face API endpoint (West-Central US Server)
+        // This is my endpoint. Please use your own for it to work.
+        const AZURE_ENDPOINT = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0";
+        // Azure Face API key
+        const AZURE_API_KEY = "b9ca9870d5f448698e8d6bacb3feae21";
+
+        var player = document.getElementById('player'); 
+        var snapshotCanvas = document.getElementById('canvas');
+        var captureButton = document.getElementById('capture');
+    
+        var handleSuccess = function(stream) {
+            // Attach the video stream to the video element and autoplay.
+            player.srcObject = stream;
+        };
+    
+        captureButton.addEventListener('click', function() {
+            var context = canvas.getContext('2d');
+            // Draw the video frame to the canvas.
+            context.drawImage(player, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
+            dataURL = canvas.toDataURL('image/jpeg');
+            var img = dataURL.substring(dataURL.indexOf('base64,') + 'base64,'.length);
+            //console.log(img);
+            /*$.ajax({
+                type: "POST",
+                beforeSend: function(request) {
+                    request.setRequestHeader("Authorization", "Client-ID "+IMGUR_CLIENT_ID);
+                },
+                url: IMGUR_ENDPOINT,
+                data: {"image": img},
+                accept: "application/json",
+                dataType: 'json',
+                success: function(response) {
+                    console.log(respose);
+                }
+            });*/
+            var body = new FormData();
+            body.append("image", img);
+            var auth = "Client-ID "+IMGUR_CLIENT_ID;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", IMGUR_ENDPOINT, true);
+            xhr.setRequestHeader("Authorization", auth);
+
+            // Once the request is sent, we check to see if it's successful
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    // 200 is a successful status code, meaning it worked!
+                    if (xhr.status == 200) {
+                        // We can grab the link from our HTTP response and call it back
+                        let res = JSON.parse(xhr.response);
+                        let link = res['data']['link'];
+                        console.log(link);
+                        let body2 = JSON.stringify({ "url": link });
+                        var xhr2 = new XMLHttpRequest();
+                        xhr2.open("POST", AZURE_ENDPOINT+'/detect', true);
+                        xhr2.setRequestHeader("Ocp-Apim-Subscription-Key", AZURE_API_KEY);
+                        xhr2.setRequestHeader("Content-Type","application/json");
+                        xhr2.onreadystatechange = () => {
+                            if (xhr2.readyState == XMLHttpRequest.DONE) {
+                                // 200 is a successful status code, meaning it worked!
+                                if (xhr2.status == 200) {
+                                    // We can grab the link from our HTTP response and call it back
+                                    let data = JSON.parse(xhr2.response);
+                                    firstFaceId = data[0]['faceId'];
+                                    let body3 = JSON.stringify({ 
+                                        "faceIds": [firstFaceId],
+                                        "personGroupId":"fracc-las-torres" 
+                                    });
+                                    var xhr3 = new XMLHttpRequest();
+                                    xhr3.open("POST", AZURE_ENDPOINT+'/identify', true);
+                                    xhr3.setRequestHeader("Ocp-Apim-Subscription-Key", AZURE_API_KEY);
+                                    xhr3.setRequestHeader("Content-Type","application/json");
+                                    xhr3.onreadystatechange = () => {
+                                        if (xhr3.readyState == XMLHttpRequest.DONE) {
+                                            // 200 is a successful status code, meaning it worked!
+                                            if (xhr3.status == 200) {
+                                                // We can grab the link from our HTTP response and call it back
+                                                let data = JSON.parse(xhr3.response);
+                                                var personId = data[0]['candidates'][0]['personId'];
+                                                var xhr4 = new XMLHttpRequest();
+                                                xhr4.open("GET", AZURE_ENDPOINT+'/persongroups/fracc-las-torres/persons/'+personId, true);
+                                                xhr4.setRequestHeader("Ocp-Apim-Subscription-Key", AZURE_API_KEY);
+                                                xhr4.setRequestHeader("Content-Type","application/json");
+                                                xhr4.onreadystatechange = () => {
+                                                    if (xhr4.readyState == XMLHttpRequest.DONE) {
+                                                        // 200 is a successful status code, meaning it worked!
+                                                        if (xhr4.status == 200) {
+                                                            let data = JSON.parse(xhr4.response);
+                                                            console.log(data.name)
+                                                            $('#msgModal').find('.modal-msg').text('Bienvenido! ' + data.name);
+                                                            $('#msgModal').show();
+                                                            var counter = 0;
+                                                            var interval = setInterval(function() {
+                                                                counter++;
+                                                                // Display 'counter' wherever you want to display it.
+                                                                if (counter == 5) {
+                                                                    // Display a login box
+                                                                    $('#msgModal').hide();
+                                                                }
+                                                            }, 1000);
+                                                        } else if (xhr4.status >= 400) {
+                                                            // If we receisve a bad request error, we'll send our failure callback.
+                                                        }
+                                                    }
+                                                }
+                                                xhr4.send();
+                                            } else if (xhr3.status >= 400) {
+                                                // If we receisve a bad request error, we'll send our failure callback.
+                                            }
+                                        }
+                                    }
+                                    xhr3.send(body3);
+                                } else if (xhr2.status >= 400) {
+                                    // If we receisve a bad request error, we'll send our failure callback.
+                                }
+                            }
+                        }
+                        xhr2.send(body2);
+                    } else if (xhr.status >= 400) {
+                        // If we receisve a bad request error, we'll send our failure callback.
+                    }
+                }
+            }
+            // This synchronously sends our form-data body.
+            xhr.send(body);
+        });
+    
+        navigator.mediaDevices.getUserMedia({video: true})
+            .then(handleSuccess);
+    </script>
+</body>
+</html>

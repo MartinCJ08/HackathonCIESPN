@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from json import dumps
 #from flask.ext.jsonpify import jsonify
 import pyrebase
-
+#ALL DEPRECATED
 config = {
   "apiKey": "AIzaSyBaZ-hC6RfdQnsaWwlWBHvHfEaiHtoNKow",
   "authDomain": "safebanananice.firebaseapp.com",
