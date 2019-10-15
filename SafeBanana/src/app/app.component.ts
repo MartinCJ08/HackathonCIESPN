@@ -37,6 +37,11 @@ export class AppComponent {
       icon: 'list'
     },
     {
+      title: 'Notification',
+      url: '/notification',
+      icon: 'notifications-outline'
+    },
+    {
       title: 'Sign out',
       url: '/',
       icon: 'return-left'
