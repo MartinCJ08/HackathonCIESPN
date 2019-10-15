@@ -19,7 +19,8 @@ const routes: Routes = [
   { path: 'event', loadChildren: './pages/event/event.module#EventPageModule' },
   { path: 'help', loadChildren: './pages/help/help.module#HelpPageModule' },
   { path: 'home-guest', loadChildren: './pages/home-guest/home-guest.module#HomeGuestPageModule' },
-  { path: 'add-guest', loadChildren: './pages/add-guest/add-guest.module#AddGuestPageModule' }
+  { path: 'add-guest', loadChildren: './pages/add-guest/add-guest.module#AddGuestPageModule' },
+  { path: 'my-guests', loadChildren: './pages/my-guests/my-guests.module#MyGuestsPageModule' }
 
 
 ];
