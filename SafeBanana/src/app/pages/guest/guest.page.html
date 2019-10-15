@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>guest</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngFor="let item of dataReport">
+    <ion-card class="welcome-card" *ngIf='item.idUsu === this.myEmail'>
+      <ion-card-header>
+        <ion-card-title>Nombre: {{item.Name}} {{item.Last}}</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/guest">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

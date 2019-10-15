@@ -18,7 +18,7 @@ export class AppComponent {
     },
     {
       title: 'My visits',
-      url: '/list',
+      url: '/guest',
       icon: 'md-people'
     },
     {

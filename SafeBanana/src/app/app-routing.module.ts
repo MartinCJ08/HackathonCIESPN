@@ -22,7 +22,8 @@ const routes: Routes = [
   { path: 'home-guest', loadChildren: './pages/home-guest/home-guest.module#HomeGuestPageModule' },
   { path: 'add-guest', loadChildren: './pages/add-guest/add-guest.module#AddGuestPageModule' },
   { path: 'my-guests', loadChildren: './pages/my-guests/my-guests.module#MyGuestsPageModule' },
-  { path: 'notification', loadChildren: './pages/notification/notification.module#NotificationPageModule' }
+  { path: 'notification', loadChildren: './pages/notification/notification.module#NotificationPageModule' },  { path: 'guest', loadChildren: './pages/guest/guest.module#GuestPageModule' }
+
 
 
 ];
