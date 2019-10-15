@@ -10,40 +10,25 @@
 </ion-header>
 
 <ion-content>
-    <ion-card class="welcome-card">
-      <img src="/assets/shapes.svg" alt="" />
-      <ion-card-header>
-        <ion-card-title>Evento: Fiesta Infantil</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Fiesta infantil que se realizara </p>
-      </ion-card-content>
-    </ion-card>
 
-    <ion-card class="welcome-card">
-      <img src="/assets/shapes.svg" alt="" />
-      <ion-card-header>
-        <ion-card-title>Evento: Instalacion de una regadera</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Venida de un maistro que se realizara tal fecha </p>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card class="welcome-card">
-      <img src="/assets/shapes.svg" alt="" />
-      <ion-card-header>
-        <ion-card-title>Evento: Delivering</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Uber arrives for delivering food</p>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button routerLink="/event">
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
+  <div *ngFor="let item of dataReport">
+      <ion-card class="welcome-card" *ngIf='item.idUsu === this.myEmail'>
+        
+          <img src="/assets/shapes.svg" alt="" />
+          <ion-card-header>
+            <ion-card-title>Tipo de evento: {{item.type}} </ion-card-title>
+            <h5>Descripcion : {{item.desc}}</h5>
+          </ion-card-header>
+          <ion-card-content>
+            <p>Fecha de inicio: {{item.iniDate}} Fecha de fin: {{item.finDate}}</p>
+          </ion-card-content>
+        </ion-card>
+  </div>
+  
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/event">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>

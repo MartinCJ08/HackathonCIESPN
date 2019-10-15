@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Event } from '../../models/event.interfaces';
 import { EventService } from '../../services/event.service';
+import { environment } from '../../../environments/environment';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-event',
@@ -8,6 +10,8 @@ import { EventService } from '../../services/event.service';
   styleUrls: ['./event.page.scss'],
 })
 export class EventPage implements OnInit {
+
+  env = environment;
 
   inputType = '';
   inputIniDate = '';
@@ -17,7 +21,7 @@ export class EventPage implements OnInit {
 
   event: any[];
 
-  constructor(private eventService: EventService) { }
+  constructor(private eventService: EventService, private router: Router) { }
 
   ngOnInit() {
     
@@ -30,8 +34,10 @@ export class EventPage implements OnInit {
     let range2 = this.inputRange;
     let desc2 = this.inputDesc;
 
+    console.log(this.env.idUser);
+
     let myEvent: Event = {
-      idUsu: "PENDIENTE",
+      idUsu: this.env.idUser,
       type: type2,
       desc: desc2,
       iniDate: iniDate2,
@@ -41,6 +47,7 @@ export class EventPage implements OnInit {
 
     console.log(myEvent);
     this.eventService.addEvent(myEvent);
+    this.router.navigate(['/home']);
 
   }
 }
